@@ -146,7 +146,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         }
     }
     
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
@@ -277,9 +276,9 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                 for playList in list.items  {
                     if let playlist = playList as? SPTPartialPlaylist {
                         print(playlist.name!)
-//                                                self.setUpPlaylist(url: playlist.uri, {res in
-//                                                    self.userPlaylists.append(res)
-//                                                })
+                        //                                                self.setUpPlaylist(url: playlist.uri, {res in
+                        //                                                    self.userPlaylists.append(res)
+                        //                                                })
                         if(numPlayList == self.playListNum){
                             self.getTracksFromPlayList(url: playlist.uri) { result in
                                 let dataPoints = result
@@ -291,18 +290,21 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                                 let x = 142.03
                                 let closestUrl : String = self.songs.getSongForBPM(bpm: x).url.absoluteString
                                 print(closestUrl)
-                    
+                                
                                 let closestSong : Song = self.songs.getSongForBPM(bpm: x)
                                 print("closest song with bpm ", x, " \(closestSong.name),  \(closestSong.bpm)" )
-                                let i : Int = self.songs.songs.index(of: closestSong)!
-                                print(i)
-                                
-                                SPTAudioStreamingController.sharedInstance().playSpotifyURI("\(playlist.uri!)", startingWith: (UInt)(i), startingWithPosition: 0) { error in
-                                    if error != nil {
-                                        print("*** failed to play: \(String(describing: error))")
-                                        return
-                                    }
-                                }
+                                self.playThisSong(song: closestSong, playlistURI: playlist.uri.absoluteString)
+//                                let i : Int = self.songs.songs.index(of: closestSong)!
+//                                print(i)
+//
+//                                SPTAudioStreamingController.sharedInstance().playSpotifyURI("\(playlist.uri!)", startingWith: (UInt)(i), startingWithPosition: 0) { error in
+//                                    if error != nil {
+//                                        print("*** failed to play: \(String(describing: error))")
+//                                        return
+//
+//                                    }
+//
+//                                }
                             }
                             
                             SPTAudioStreamingController.sharedInstance()?.setShuffle(true, callback: nil)
@@ -314,6 +316,22 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                     }
                 }}
     }
+    func playThisSong(song : Song){
+        let playlistURI = (SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.playbackSourceUri)!
+        self.playThisSong(song: song, playlistURI: playlistURI)
+    }
+    func playThisSong(song : Song, playlistURI : String){
+        self.songs.songs.sort(){ $0.dateAdded < $1.dateAdded}
+        let i : Int = self.songs.songs.index(of: song)!
+        SPTAudioStreamingController.sharedInstance().playSpotifyURI("\(String(describing: playlistURI))", startingWith: (UInt)(i), startingWithPosition: 0) { error in
+            if error != nil {
+                print("*** failed to play: \(String(describing: error))")
+                return
+            }
+        }
+
+    }
+    
     
     func setUpPlaylist (url : URL, _ completion: @escaping (Playlist) -> Void){
         var dataPoints = [Double : URL]()
@@ -473,7 +491,7 @@ class Song : Comparable{
     static func == (lhs: Song, rhs: Song) -> Bool {
         return lhs.bpm == rhs.bpm
     }
-
+    
 }
 
 class Playlist{
