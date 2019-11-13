@@ -9,13 +9,16 @@
 import UIKit
 import AudioToolbox
 import AVFoundation
+import CoreMotion
 
 var firstTime : Bool = true
 var wasPlayingWhenDisappear : Bool = true
 
 class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlaybackDelegate {
+    @IBOutlet weak var acceleration: UILabel!
+    @IBOutlet weak var deviceMotion: UILabel!
     
-    
+    @IBOutlet weak var pedometerLabel: UILabel!
     @IBOutlet weak var playPauseButton: UIButton!
     @IBOutlet weak var trackTitle: UILabel!
     @IBOutlet weak var prevButton: UIButton!
@@ -32,24 +35,13 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
     var songs = Playlist()
     var isChangingProgress: Bool = false
     let audioSession = AVAudioSession.sharedInstance()
-    let playListNum : Int = 2
+    let playListNum : Int = 4
+    
+    var motion = CMMotionManager()
+    var pedometer = CMPedometer()
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
-        let pedometer = Pedometer()
-        pedometer.startAccelerometer()
-        if(playPauseButton != nil){
-            let widthContraints =  NSLayoutConstraint(item: playPauseButton, attribute: NSLayoutConstraint.Attribute.width, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 140)
-            playPauseButton.addConstraint(widthContraints)
-            //playPauseButton!.setTitle("Pause", for: .normal)
-            if(wasPlayingWhenDisappear){
-                playPauseButton!.setTitle("Pause", for: .normal)
-            }
-            else {
-                playPauseButton!.setTitle("Play", for: .normal)
-            }
-        }
         
         if(SPTAudioStreamingController.sharedInstance() == nil){
             self.trackTitle.text = "Nothing Playing"
@@ -59,8 +51,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
             updateUI()
         }
     }
-
-    
     
     override var prefersStatusBarHidden: Bool {
         return true
@@ -130,6 +120,7 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         self.nextButton.isEnabled = SPTAudioStreamingController.sharedInstance().metadata.nextTrack != nil
         self.prevButton.isEnabled = SPTAudioStreamingController.sharedInstance().metadata.prevTrack != nil
         self.trackTitle.text = SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.name
+        
         self.artistTitle.text = SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.artistName
         self.playbackSourceTitle.text = SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.playbackSourceName
         
@@ -137,44 +128,27 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
             audioStreaming(SPTAudioStreamingController.sharedInstance(), didChangePosition: SPTAudioStreamingController.sharedInstance().playbackState.position)
             isChangingProgress = false
         }
-        
-        SPTTrack.track(withURI: URL(string: SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.uri)!, accessToken: AuthService.instance.sessiontokenId ?? "", market: nil) { error, result in
-            if let track = result as? SPTTrack {
-                let imageURL = track.album.largestCover.imageURL
-                if imageURL == nil {
-                    print("Album \(String(describing: track.album)) doesn't have any images!")
-                    self.coverView.image = nil
-                    self.coverView2.image = nil
-                    return
-                }
-                // Pop over to a background queue to load the image over the network.
-                
-                DispatchQueue.global().async {
-                    do {
-                        let imageData = try Data(contentsOf: imageURL!, options: [])
-                        let image = UIImage(data: imageData)
-                        // …and back to the main queue to display the image.
-                        DispatchQueue.main.async {
-                            self.spinner.stopAnimating()
-                            self.coverView.image = image
-                            if image == nil {
-                                print("Couldn't load cover image with error: \(String(describing: error))")
-                                return
-                            }
-                        }
-                        // Also generate a blurry version for the background
-//                        let blurred = self.applyBlur(on: image!, withRadius: 10.0)
-//                        DispatchQueue.main.async {
-//                            //self.coverView2.image = blurred
-//                        }
-                        
-                    } catch let error {
-                        print(error.localizedDescription)
+        let imageURL = (SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.albumCoverArtURL)
+        DispatchQueue.global().async {
+            do {
+                let imageData = try Data(contentsOf: URL(string: imageURL!)!, options: [])
+                let image = UIImage(data: imageData)
+                DispatchQueue.main.async {
+                    self.spinner.stopAnimating()
+                    self.coverView.image = image
+                    if image == nil {
+                        print("couldn't load cover image with error")
                     }
                 }
+            } catch let error {
+                print(error.localizedDescription)
             }
         }
-        
+    }
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -187,6 +161,7 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         super.viewDidDisappear(animated)
         wasPlayingWhenDisappear = (SPTAudioStreamingController.sharedInstance()?.playbackState.isPlaying)!
     }
+    
     
     func handleNewSession() {
         do {
@@ -214,7 +189,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
             self.closeSession()
         }
     }
-    
     func closeSession() {
         do {
             try SPTAudioStreamingController.sharedInstance().stop()
@@ -256,7 +230,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didReceiveError error: Error?) {
-        
         print("didReceiveError: \(error!.localizedDescription)")
         let alert = UIAlertController(title: "Error", message: "\(error!.localizedDescription)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
@@ -278,7 +251,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         let positionDouble = Double(position)
         let durationDouble = Double(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.duration)
         self.progressSlider.value = Float(positionDouble / durationDouble)
-        
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStartPlayingTrack trackUri: String) {
@@ -305,24 +277,26 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                 for playList in list.items  {
                     if let playlist = playList as? SPTPartialPlaylist {
                         print(playlist.name!)
-//                        self.setUpPlaylist(url: playlist.uri, {res in
-//                            self.userPlaylists.append(res)
-//                        })
-//
+//                                                self.setUpPlaylist(url: playlist.uri, {res in
+//                                                    self.userPlaylists.append(res)
+//                                                })
                         if(numPlayList == self.playListNum){
                             self.getTracksFromPlayList(url: playlist.uri) { result in
                                 let dataPoints = result
                                 print(dataPoints.count)
-                                self.songs.songs.sort()
                                 for song in self.songs.songs{
-                                    print("\(song.bpm), \(song.url), \(song.name)")
+                                    print("\(song.bpm), \(song.url), \(song.name), \(song.dateAdded)")
                                 }
-                                let x = 151.03
-                                print("closest song with bpm ", x, " \(self.songs.getSongForBPM(bpm: x).name)" )
-                                SPTAudioStreamingController.sharedInstance()?.setShuffle(true, callback: nil)
                                 
+                                let x = 142.03
+                                let closestUrl : String = self.songs.getSongForBPM(bpm: x).url.absoluteString
+                                print(closestUrl)
+                    
+                                let closestSong : Song = self.songs.getSongForBPM(bpm: x)
+                                print("closest song with bpm ", x, " \(closestSong.name),  \(closestSong.bpm)" )
+                                let i : Int = self.songs.songs.index(of: closestSong)!
+                                print(i)
                                 
-                                 let i : UInt = UInt.random(in: 0...(UInt)(self.songs.size() - 1))
                                 SPTAudioStreamingController.sharedInstance().playSpotifyURI("\(playlist.uri!)", startingWith: (UInt)(i), startingWithPosition: 0) { error in
                                     if error != nil {
                                         print("*** failed to play: \(String(describing: error))")
@@ -339,7 +313,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                         print(playList)
                     }
                 }}
-        
     }
     
     func setUpPlaylist (url : URL, _ completion: @escaping (Playlist) -> Void){
@@ -355,9 +328,10 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                 var index : Int = 0
                 for track in response {
                     self.getBPMForTrack(url: track.uri){ result in
-                        index += 1
                         dataPoints[result] = track.uri!
-                        playList.songs.append(Song(url: track.uri!, name: track.name!, artist: track.artists!, bpm: result))
+                        index += 1
+                        let song : Song = Song(url: track.uri!, name: track.name!, artist: track.artists!, bpm: result, date: track.addedAt!)
+                        playList.songs.append(song)
                         if(index == response.count){
                             completion(playList)
                         }
@@ -382,9 +356,11 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                     self.getBPMForTrack(url: track.uri){ result in
                         index += 1
                         dataPoints[result] = track.uri!
-                        self.songs.append(song: Song(url: track.uri!, name: track.name!, artist: track.artists!, bpm: result))
+                        let song : Song = Song(url: track.uri!, name: track.name!, artist: track.artists!, bpm: result, date: track.addedAt!)
+                        self.songs.append(song: song)
                         if(index == response.count){
                             print("Songs size: ", self.songs.songs.count)
+                            self.songs.songs.sort(){ $0.dateAdded < $1.dateAdded}
                             completion(dataPoints)
                         }
                     }}
@@ -469,18 +445,23 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
             print(error.localizedDescription)
         }
     }
+    
 }
+
+
 class Song : Comparable{
     var url : URL
     var name : String = String()
     var artist : [Any] = [Any]()
     var bpm : Double = Double()
+    var dateAdded: Date = Date()
     
-    init(url: URL, name : String, artist: [Any], bpm: Double) {
+    init(url: URL, name : String, artist: [Any], bpm: Double, date: Date) {
         self.url = url
         self.name = name
         self.artist = artist
         self.bpm = bpm
+        self.dateAdded = date
     }
     static func < (lhs: Song, rhs: Song) -> Bool {
         return lhs.bpm < rhs.bpm
@@ -492,6 +473,7 @@ class Song : Comparable{
     static func == (lhs: Song, rhs: Song) -> Bool {
         return lhs.bpm == rhs.bpm
     }
+
 }
 
 class Playlist{
@@ -511,7 +493,7 @@ class Playlist{
                 return song
             }
         }
-        return Song(url: URL(string: "")!, name: "", artist: [Any](), bpm: 0.0)
+        return Song(url: URL(string: "")!, name: "", artist: [Any](), bpm: 0.0, date: Date())
     }
     func sort(){
         self.songs.sort()
@@ -519,7 +501,7 @@ class Playlist{
     func getSongForBPM(bpm : Double) -> Song{
         var bestSong : Song = songs[0]
         var prevDiff : Double = bestSong.bpm - bpm
-        for song in songs.sorted() {
+        for song in songs.sorted(){
             if(abs(song.bpm - bpm) < abs(bestSong.bpm - bpm)){
                 bestSong = song
             }
