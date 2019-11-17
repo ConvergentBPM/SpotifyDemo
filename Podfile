@@ -6,5 +6,4 @@ target 'Spotify-Demo' do
   use_frameworks!
 
 pod 'Alamofire'
-pod 'SVProgressHUD'
 end

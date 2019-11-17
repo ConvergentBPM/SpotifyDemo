@@ -9,7 +9,6 @@
 import UIKit
 @_exported import Alamofire
 import AVFoundation
-import SVProgressHUD
 
 var player : AVAudioPlayer!
 
@@ -56,7 +55,6 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         posts.removeAll()
         callAlamofire(url: searchURL)
         self.tableView.reloadData()
-        SVProgressHUD.dismiss()
     }
     
     override func viewDidLoad() {
@@ -80,8 +78,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //self.showToast(message: "Please wait, it will take some time..")
         callAlamofire(url: defaultURL)
         self.tableView.endUpdates()
-        var boolToWatch = false
-        SVProgressHUD.dismiss()
+//        var boolToWatch = false
     }
     
     
@@ -96,9 +93,9 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     func parseData(JSONData : Data) {
         do {
-            var readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
+            let readableJSON = try JSONSerialization.jsonObject(with: JSONData, options: .mutableContainers) as! JSONStandard
             
-            if let tracks = readableJSON["tracks"] as? JSONStandard{
+            if let tracks = readableJSON["tracks"] as? JSONStandard {
                 //SVProgressHUD.show()
                 if let items = tracks["items"] as? [JSONStandard] {
                     for i in 0..<items.count{
@@ -106,25 +103,25 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                         let name = item["name"] as! String
                         let type = item["type"] as! String
                         let struri = item["uri"] as! String
-                        if let previewURL = item["preview_url"] as? String
-                        {
-                            if let album = item["album"] as? JSONStandard{
-                                if let images = album["images"] as? [JSONStandard]{
+                        if let previewURL = item["preview_url"] as? String {
+                            if let album = item["album"] as? JSONStandard {
+                                if let images = album["images"] as? [JSONStandard] {
                                     let imageData = images[0]
                                     let mainImageURL =  URL(string: imageData["url"] as! String)
                                     let mainImageData = NSData(contentsOf: mainImageURL!)
-                                    let mainImage = UIImage(data: mainImageData as! Data)
+                                    let mainImage = UIImage(data: mainImageData! as Data)
                                     posts.append(post.init(mainImage: mainImage, name: name, type: type, struri: struri, previewURL: previewURL))
-                                    SVProgressHUD.dismiss()
                                     self.tableView.reloadData()
-                                }}}else {
-                            SVProgressHUD.dismiss()
+                                }
+                                
+                            }
+                        } else {
                             print("No Preview URL")
-                        } }}
+                        }
+                    }
+                }
             }
-        }
-        catch{
-            SVProgressHUD.dismiss()
+        } catch {
             print(error)
         }
     }
@@ -142,7 +139,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         })
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let isSearchResults: Bool = UserDefaults.standard.bool(forKey: "enableSearch")
+//        let isSearchResults: Bool = UserDefaults.standard.bool(forKey: "enableSearch")
         return posts.count
     }
     

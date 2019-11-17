@@ -34,7 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     print("error!")
                 }
                 let userDefaults = UserDefaults.standard
-                let sessionData = NSKeyedArchiver.archivedData(withRootObject: session)
+                let sessionData = try! NSKeyedArchiver.archivedData(withRootObject: session as Any, requiringSecureCoding: false)
                 print(sessionData)
                 userDefaults.set(sessionData, forKey: "SpotifySession")
                 userDefaults.synchronize()

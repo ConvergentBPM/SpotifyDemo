@@ -33,8 +33,7 @@ class AudioVC : UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAudioStr
     }
     
     func downloadFileFromURL(url: URL){
-        var downloadTask = URLSessionDownloadTask()
-        downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: {
+        let downloadTask = URLSession.shared.downloadTask(with: url, completionHandler: {
             customURL, response, error in
             self.play(url: customURL!)
         })

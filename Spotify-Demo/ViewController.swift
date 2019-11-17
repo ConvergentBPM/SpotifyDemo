@@ -69,7 +69,7 @@ class ViewController: UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAu
         if let sessionObj:AnyObject = userDefaults.object(forKey: "SpotifySession") as AnyObject? {
             
             let sessionDataObj = sessionObj as! Data
-            let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
+            let firstTimeSession = try! NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(sessionDataObj) as! SPTSession
             
             self.session = firstTimeSession
         //   initializaPlayer(authSession: session)
