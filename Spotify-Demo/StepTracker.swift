@@ -1,5 +1,5 @@
 //
-//  Pedometer.swift
+//  StepTracker.swift
 //  Spotify-Demo
 //
 //  Created by Peter Cardenas on 10/28/19.
