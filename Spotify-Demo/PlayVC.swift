@@ -10,6 +10,7 @@ import UIKit
 import AudioToolbox
 import AVFoundation
 import CoreMotion
+import MediaPlayer
 
 var firstTime : Bool = true
 var wasPlayingWhenDisappear : Bool = true
@@ -30,21 +31,84 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
     
     var userPlaylists = [Playlist]()
     var tempURLs = [URL]()
-    
+    var nowPlayingInfo = [String:Any]()
     var isChangingProgress: Bool = false
     let audioSession = AVAudioSession.sharedInstance()
     let playListNum : Int = 4
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        let edgePan = UIScreenEdgePanGestureRecognizer(target: self, action: #selector(screenEdgeSwiped))
+        edgePan.edges = .bottom
+        view.addGestureRecognizer(edgePan)
         
         if(SPTAudioStreamingController.sharedInstance() == nil){
             self.trackTitle.text = "Nothing Playing"
             self.artistTitle.text = ""
+            setupRemoteTransportControls()
+            setupNotificationView()
         }
         else {
             updateUI()
+            setupRemoteTransportControls()
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.handleNewSession()
+        print("session: \(AuthService.instance.sessiontokenId ?? "")")
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        wasPlayingWhenDisappear = (SPTAudioStreamingController.sharedInstance()?.playbackState.isPlaying)!
+    }
+    
+    func setupRemoteTransportControls() {
+        let commandCenter = MPRemoteCommandCenter.shared()
+        commandCenter.playCommand.addTarget {_ in
+                SPTAudioStreamingController.sharedInstance().setIsPlaying(!SPTAudioStreamingController.sharedInstance().playbackState.isPlaying, callback: nil)
+                return .success
+            }
+
+            // Add handler for Pause Command
+        commandCenter.pauseCommand.addTarget {_ in
+            SPTAudioStreamingController.sharedInstance().setIsPlaying(!SPTAudioStreamingController.sharedInstance().playbackState.isPlaying, callback: nil)
+                return .success
+            }
+        commandCenter.nextTrackCommand.addTarget {_ in
+                    SPTAudioStreamingController.sharedInstance().skipNext(nil)
+            self.playPauseButton!.setTitle("Pause", for: .normal)
+            return .success
+        }
+        commandCenter.previousTrackCommand.addTarget {_ in
+                     SPTAudioStreamingController.sharedInstance().skipPrevious(nil)
+            self.playPauseButton!.setTitle("Pause", for: .normal)
+            return .success
+        }
+    }
+    
+    func setupNotificationView(){
+        
+        nowPlayingInfo[MPMediaItemPropertyTitle] = SPTAudioStreamingController.sharedInstance()?.metadata.currentTrack?.name
+        nowPlayingInfo[MPMediaItemPropertyAlbumTitle] = SPTAudioStreamingController.sharedInstance()?.metadata.currentTrack?.albumName
+        nowPlayingInfo[MPMediaItemPropertyArtist] = SPTAudioStreamingController.sharedInstance()?.metadata.currentTrack?.artistName
+        nowPlayingInfo[MPMediaItemPropertyPlaybackDuration] = SPTAudioStreamingController.sharedInstance()?.metadata.currentTrack?.duration
+        
+        let url : URL = URL(string: (SPTAudioStreamingController.sharedInstance()?.metadata.currentTrack?.albumCoverArtURL)!)!
+        let data: Data = try! Data(contentsOf: url)
+        let image : UIImage = UIImage(data: data)!
+       nowPlayingInfo[MPMediaItemPropertyArtwork] = MPMediaItemArtwork.init(boundsSize: image.size, requestHandler: { (size) -> UIImage in
+                    return image
+            })
+        
+        
+        MPNowPlayingInfoCenter.default().nowPlayingInfo = self.nowPlayingInfo
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -56,13 +120,29 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         playPauseButton!.setTitle("Pause", for: .normal)
     }
     
-    @IBAction func playPause(_ sender: UIButton) {
-        SPTAudioStreamingController.sharedInstance().setIsPlaying(!SPTAudioStreamingController.sharedInstance().playbackState.isPlaying, callback: nil)
+    func playPauseAction(){
+SPTAudioStreamingController.sharedInstance().setIsPlaying(!SPTAudioStreamingController.sharedInstance().playbackState.isPlaying, callback: nil)
         if (SPTAudioStreamingController.sharedInstance()?.playbackState.isPlaying)! {
             playPauseButton.setTitle("Play", for: .normal)
         }
         else{
             playPauseButton.setTitle("Pause", for: .normal)
+        }
+    }
+    @IBAction func playPause(_ sender: UIButton) {
+        playPauseAction()
+//      SPTAudioStreamingController.sharedInstance().setIsPlaying(!SPTAudioStreamingController.sharedInstance().playbackState.isPlaying, callback: nil)
+//        if (SPTAudioStreamingController.sharedInstance()?.playbackState.isPlaying)! {
+//            playPauseButton.setTitle("Play", for: .normal)
+//        }
+//        else{
+//            playPauseButton.setTitle("Pause", for: .normal)
+//        }
+    }
+    
+    @objc func screenEdgeSwiped(_ recognizer: UIScreenEdgePanGestureRecognizer) {
+        if recognizer.state == .recognized {
+            print("Screen edge swiped!")
         }
     }
     
@@ -103,7 +183,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         return ret
     }
     
-    
     func updateUI() {
         _ = SPTAuth.defaultInstance()
         if SPTAudioStreamingController.sharedInstance().metadata == nil || SPTAudioStreamingController.sharedInstance().metadata.currentTrack == nil {
@@ -140,23 +219,7 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
             }
         }
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.handleNewSession()
-        print("session: \(AuthService.instance.sessiontokenId ?? "")")
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        wasPlayingWhenDisappear = (SPTAudioStreamingController.sharedInstance()?.playbackState.isPlaying)!
-    }
-    
-    
+ 
     func handleNewSession() {
         do {
             if (SPTAudioStreamingController.sharedInstance()!.loggedIn){
@@ -183,6 +246,7 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
             self.closeSession()
         }
     }
+    
     func closeSession() {
         do {
             try SPTAudioStreamingController.sharedInstance().stop()
@@ -254,6 +318,7 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         // than we can assume that relink has happended.
         let isRelinked = SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.playbackSourceUri.contains("spotify:track") && !(SPTAudioStreamingController.sharedInstance().metadata.currentTrack!.playbackSourceUri == trackUri)
         print("Relinked \(isRelinked)")
+                                        self.setupNotificationView()
     }
     
     func audioStreaming(_ audioStreaming: SPTAudioStreamingController, didStopPlayingTrack trackUri: String) {
@@ -300,10 +365,12 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                     }
                 }}
     }
+    
     func playThisSong(song : Song){
         let playlistURI = (SPTAudioStreamingController.sharedInstance().metadata.currentTrack?.playbackSourceUri)!
         self.playThisSong(song: song, playlistURI: playlistURI)
     }
+    
     func playThisSong(song : Song, playlistURI : String){
         songs.songs.sort(){ $0.dateAdded < $1.dateAdded}
         let i : Int = songs.songs.index(of: song)!
@@ -313,9 +380,7 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
                 return
             }
         }
-        
     }
-    
     
     func setUpPlaylist (url : URL, _ completion: @escaping (Playlist) -> Void){
         var dataPoints = [Double : URL]()
@@ -402,7 +467,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         }
     }
     
-    
     func getBPMForTrack(url : URL, _ completion: @escaping (Double) -> Void) {
         let s : String = url.absoluteString
         let trackID = s.components(separatedBy: ":")[2]
@@ -428,7 +492,6 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
         })
     }
     
-    
     func activateAudioSession() {
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
@@ -447,9 +510,7 @@ class PlayVC: UIViewController, SPTAudioStreamingDelegate, SPTAudioStreamingPlay
             print(error.localizedDescription)
         }
     }
-    
 }
-
 
 class Song : Comparable{
     var url : URL

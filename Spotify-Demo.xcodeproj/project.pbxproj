@@ -21,10 +21,13 @@
 		17A5836422293C9C006CF17A /* AudioVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A5836322293C9C006CF17A /* AudioVC.swift */; };
 		17AC5099222FE45D003478FD /* PlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17AC5098222FE45D003478FD /* PlayVC.swift */; };
 		991A3D592359629A00A4EC39 /* lineto-circular-black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 991A3D582359628700A4EC39 /* lineto-circular-black.ttf */; };
-		992B2A92237CF05200AD8EAF /* Screen Shot 2019-11-13 at 8.14.53 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 992B2A91237CF05200AD8EAF /* Screen Shot 2019-11-13 at 8.14.53 PM.png */; };
 		992B2A94237CF20800AD8EAF /* Screen Shot 2019-11-13 at 8.22.47 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 992B2A93237CF20800AD8EAF /* Screen Shot 2019-11-13 at 8.22.47 PM.png */; };
 		992B2A96237CF2D100AD8EAF /* StartRunPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 992B2A95237CF2D100AD8EAF /* StartRunPage.swift */; };
+		9939F933237E0F7800CC90EE /* spotify-4.png in Resources */ = {isa = PBXBuildFile; fileRef = 9939F932237E0F7700CC90EE /* spotify-4.png */; };
+		9939F935237E18B800CC90EE /* StepTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9939F934237E18B800CC90EE /* StepTracker.swift */; };
 		993B5E7C235B84940030055A /* AppLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 993B5E7B235B84940030055A /* AppLogo.png */; };
+		99CB22F423807F2F008E70F9 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99CB22F323807F2F008E70F9 /* AudioToolbox.framework */; };
+		99CB23032380A4ED008E70F9 /* Screen Shot 2019-11-13 at 8.14.53 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = 99CB23052380A4ED008E70F9 /* Screen Shot 2019-11-13 at 8.14.53 PM.png */; };
 		99D35A272359567F001EDDB6 /* spotifyBackground2 in Resources */ = {isa = PBXBuildFile; fileRef = 99D35A262359567E001EDDB6 /* spotifyBackground2 */; };
 		C71945B9C4FA32590FDDD818 /* Pods_Spotify_Demo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F8336B4CFC77727C44955317 /* Pods_Spotify_Demo.framework */; };
 /* End PBXBuildFile section */
@@ -49,10 +52,14 @@
 		17A5836322293C9C006CF17A /* AudioVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioVC.swift; sourceTree = "<group>"; };
 		17AC5098222FE45D003478FD /* PlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayVC.swift; sourceTree = "<group>"; };
 		991A3D582359628700A4EC39 /* lineto-circular-black.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "lineto-circular-black.ttf"; path = "Spotify-Demo/Assets.xcassets/lineto-circular-black.ttf"; sourceTree = SOURCE_ROOT; };
-		992B2A91237CF05200AD8EAF /* Screen Shot 2019-11-13 at 8.14.53 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Screen Shot 2019-11-13 at 8.14.53 PM.png"; path = "../../../Desktop/Screen Shot 2019-11-13 at 8.14.53 PM.png"; sourceTree = "<group>"; };
 		992B2A93237CF20800AD8EAF /* Screen Shot 2019-11-13 at 8.22.47 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Screen Shot 2019-11-13 at 8.22.47 PM.png"; path = "../../../Desktop/Screen Shot 2019-11-13 at 8.22.47 PM.png"; sourceTree = "<group>"; };
 		992B2A95237CF2D100AD8EAF /* StartRunPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StartRunPage.swift; path = "../../Time Left/TimeLeft Shape Sample/StartRunPage.swift"; sourceTree = "<group>"; };
+		9939F932237E0F7700CC90EE /* spotify-4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "spotify-4.png"; path = "../../spotify-4.png"; sourceTree = "<group>"; };
+		9939F934237E18B800CC90EE /* StepTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepTracker.swift; sourceTree = "<group>"; };
 		993B5E7B235B84940030055A /* AppLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AppLogo.png; path = "Spotify-Demo/Assets.xcassets/AppLogo.png"; sourceTree = SOURCE_ROOT; };
+		99CB22F223807F2F008E70F9 /* Spotify-Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Spotify-Demo.entitlements"; sourceTree = "<group>"; };
+		99CB22F323807F2F008E70F9 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		99CB23042380A4ED008E70F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = "Base.lproj/Screen Shot 2019-11-13 at 8.14.53 PM.png"; sourceTree = "<group>"; };
 		99D35A262359567E001EDDB6 /* spotifyBackground2 */ = {isa = PBXFileReference; lastKnownFileType = file; name = spotifyBackground2; path = "Spotify-Demo/Assets.xcassets/spotifyBackground2"; sourceTree = SOURCE_ROOT; };
 		E3D0A2846EE9E9AEA08ED1B2 /* Pods-Spotify-Demo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Spotify-Demo.release.xcconfig"; path = "Target Support Files/Pods-Spotify-Demo/Pods-Spotify-Demo.release.xcconfig"; sourceTree = "<group>"; };
 		F8336B4CFC77727C44955317 /* Pods_Spotify_Demo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Spotify_Demo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -65,6 +72,7 @@
 			files = (
 				17A5835D222901AD006CF17A /* SpotifyMetadata.framework in Frameworks */,
 				17A5835B222901A5006CF17A /* SpotifyAuthentication.framework in Frameworks */,
+				99CB22F423807F2F008E70F9 /* AudioToolbox.framework in Frameworks */,
 				17A5835922290180006CF17A /* SpotifyAudioPlayback.framework in Frameworks */,
 				C71945B9C4FA32590FDDD818 /* Pods_Spotify_Demo.framework in Frameworks */,
 			);
@@ -96,6 +104,7 @@
 		1736E16B2227AE6900A06AB2 /* Spotify-Demo */ = {
 			isa = PBXGroup;
 			children = (
+				99CB22F223807F2F008E70F9 /* Spotify-Demo.entitlements */,
 				992B2A95237CF2D100AD8EAF /* StartRunPage.swift */,
 				1736E16C2227AE6900A06AB2 /* AppDelegate.swift */,
 				1736E16E2227AE6900A06AB2 /* ViewController.swift */,
@@ -108,6 +117,7 @@
 				1736E1782227AE7000A06AB2 /* Info.plist */,
 				1736E1892227F41500A06AB2 /* SpotifyDemo-Bridging-Header.h */,
 				17A583542228FAF9006CF17A /* Simple Track Playback-Prefix.pch */,
+				9939F934237E18B800CC90EE /* StepTracker.swift */,
 			);
 			path = "Spotify-Demo";
 			sourceTree = "<group>";
@@ -124,6 +134,7 @@
 		1B922C972E907B9E76B111C6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				99CB22F323807F2F008E70F9 /* AudioToolbox.framework */,
 				17A5835C222901AC006CF17A /* SpotifyMetadata.framework */,
 				17A5835A222901A5006CF17A /* SpotifyAuthentication.framework */,
 				17A5835822290180006CF17A /* SpotifyAudioPlayback.framework */,
@@ -144,8 +155,9 @@
 		992D9B3E2359546B00CA7027 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9939F932237E0F7700CC90EE /* spotify-4.png */,
 				992B2A93237CF20800AD8EAF /* Screen Shot 2019-11-13 at 8.22.47 PM.png */,
-				992B2A91237CF05200AD8EAF /* Screen Shot 2019-11-13 at 8.14.53 PM.png */,
+				99CB23052380A4ED008E70F9 /* Screen Shot 2019-11-13 at 8.14.53 PM.png */,
 				993B5E7B235B84940030055A /* AppLogo.png */,
 				991A3D582359628700A4EC39 /* lineto-circular-black.ttf */,
 				99D35A262359567E001EDDB6 /* spotifyBackground2 */,
@@ -215,8 +227,9 @@
 			files = (
 				991A3D592359629A00A4EC39 /* lineto-circular-black.ttf in Resources */,
 				1736E1772227AE7000A06AB2 /* LaunchScreen.storyboard in Resources */,
+				9939F933237E0F7800CC90EE /* spotify-4.png in Resources */,
 				992B2A94237CF20800AD8EAF /* Screen Shot 2019-11-13 at 8.22.47 PM.png in Resources */,
-				992B2A92237CF05200AD8EAF /* Screen Shot 2019-11-13 at 8.14.53 PM.png in Resources */,
+				99CB23032380A4ED008E70F9 /* Screen Shot 2019-11-13 at 8.14.53 PM.png in Resources */,
 				99D35A272359567F001EDDB6 /* spotifyBackground2 in Resources */,
 				1736E1742227AE7000A06AB2 /* Assets.xcassets in Resources */,
 				993B5E7C235B84940030055A /* AppLogo.png in Resources */,
@@ -285,6 +298,7 @@
 				1736E17F2227B48800A06AB2 /* TableController.swift in Sources */,
 				1736E16D2227AE6900A06AB2 /* AppDelegate.swift in Sources */,
 				17AC5099222FE45D003478FD /* PlayVC.swift in Sources */,
+				9939F935237E18B800CC90EE /* StepTracker.swift in Sources */,
 				992B2A96237CF2D100AD8EAF /* StartRunPage.swift in Sources */,
 				17A5836222290BCE006CF17A /* Ext-UserDefaults.swift in Sources */,
 				17A5836022290B50006CF17A /* AuthService.swift in Sources */,
@@ -308,6 +322,15 @@
 				1736E1762227AE7000A06AB2 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		99CB23052380A4ED008E70F9 /* Screen Shot 2019-11-13 at 8.14.53 PM.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				99CB23042380A4ED008E70F9 /* Base */,
+			);
+			name = "Screen Shot 2019-11-13 at 8.14.53 PM.png";
+			path = ../../../Desktop;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -438,6 +461,7 @@
 			baseConfigurationReference = 1768B85396450B85DB1146E0 /* Pods-Spotify-Demo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Spotify-Demo/Spotify-Demo.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "Spotify-Demo/Assets.xcassets Resources";
 				DEVELOPMENT_TEAM = L37LYT78WL;
@@ -466,6 +490,7 @@
 			baseConfigurationReference = E3D0A2846EE9E9AEA08ED1B2 /* Pods-Spotify-Demo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Spotify-Demo/Spotify-Demo.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "Spotify-Demo/Assets.xcassets Resources";
 				DEVELOPMENT_TEAM = L37LYT78WL;

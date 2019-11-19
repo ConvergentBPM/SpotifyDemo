@@ -38,9 +38,12 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var searchResults = [[String : Any]]()
     
     @IBAction func playlistButtonTapped(_ sender: Any) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "PlayVC") as! PlayVC
-        self.navigationController?.pushViewController(newViewController, animated: true)
+        
+        
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "PlayVC") as! PlayVC
+        self.present(nextViewController, animated:true, completion:nil)
+        
     }
     
     @IBAction func searchTapped(_ sender: Any) {
@@ -62,8 +65,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
+        
+        
         if #available(iOS 11.0, *) {
             searchButton.clipsToBounds = true
             searchButton.layer.cornerRadius = 20
@@ -83,11 +86,8 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         //self.showToast(message: "Please wait, it will take some time..")
         callAlamofire(url: defaultURL)
         self.tableView.endUpdates()
-        var boolToWatch = false
         SVProgressHUD.dismiss()
     }
-    
-    
     
     
     func callAlamofire(url: String){

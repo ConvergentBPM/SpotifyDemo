@@ -15,7 +15,6 @@ class ViewController: UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAu
     var loginUrl: URL?
     var myplaylists = [SPTPartialPlaylist]()
     
-    
     @IBOutlet var spotifyButton: UIButton!
     @IBOutlet var searchButtn: UIButton!
     
@@ -25,13 +24,12 @@ class ViewController: UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAu
         if let name = UserDefaults.standard.string(forKey: "Access Token"){
             let date = Date()
             let expiryTime = UserDefaults.standard.object(forKey: "Token Expiration") as! Date
-            if(date > expiryTime){
+            if(date < expiryTime){
                 print("Token already acquired: ", name)
                 print("Skip this step")
-                let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let newViewController = storyBoard.instantiateViewController(withIdentifier: "StartRunPage") as! StartRunPage
-                self.navigationController?.pushViewController(newViewController, animated: true)
-                
+                let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+                let nextViewController = storyBoard.instantiateViewController(withIdentifier: "StartRunPage") as! StartRunPage
+                self.present(nextViewController, animated:true, completion:nil)
             }
             else {
                 print("Token expired: ", name)
@@ -70,10 +68,8 @@ class ViewController: UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAu
         let userDefaults = UserDefaults.standard
         
         if let sessionObj:AnyObject = userDefaults.object(forKey: "SpotifySession") as AnyObject? {
-            
             let sessionDataObj = sessionObj as! Data
             let firstTimeSession = NSKeyedUnarchiver.unarchiveObject(with: sessionDataObj) as! SPTSession
-            
             self.session = firstTimeSession
             //   initializaPlayer(authSession: session)
             self.spotifyButton.isHidden = true
@@ -86,10 +82,7 @@ class ViewController: UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAu
             SPTUser.requestCurrentUser(withAccessToken: session.accessToken) { (error, data) in
                 guard let user = data as? SPTUser else { print("Couldn't cast as SPTUser"); return }
                 AuthService.instance.sessionuserId = user.canonicalUserName
-                
                 print(AuthService.instance.sessionuserId!)
-                
-                
             }
             // Method 1 : To get current user's playlist
             SPTPlaylistList.playlists(forUser: session.canonicalUsername, withAccessToken: session.accessToken, callback: { (error, response) in
@@ -104,7 +97,6 @@ class ViewController: UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAu
             let playListRequest = try! SPTPlaylistList.createRequestForGettingPlaylists(forUser: AuthService.instance.sessionuserId ?? "", withAccessToken: AuthService.instance.sessiontokenId ?? "")
             Alamofire.request(playListRequest)
                 .response { response in
-                    
                     
                     let list = try! SPTPlaylistList(from: response.data, with: response.response)
                     for playList in list.items ?? []{
@@ -148,9 +140,9 @@ class ViewController: UIViewController, SPTAudioStreamingPlaybackDelegate, SPTAu
     }
     
     @IBAction func searchSpotifyBTapped(_ sender: Any) {
-        let storyBoard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let newViewController = storyBoard.instantiateViewController(withIdentifier: "StartRunPage") as! StartRunPage
-        self.navigationController?.pushViewController(newViewController, animated: true)
+        let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle:nil)
+        let nextViewController = storyBoard.instantiateViewController(withIdentifier: "StartRunPage") as! StartRunPage
+        self.present(nextViewController, animated:true, completion:nil)
     }
     
 }

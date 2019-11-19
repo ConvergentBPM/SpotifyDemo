@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xSb-9P-nGq">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
@@ -38,17 +38,9 @@
                                 </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Screen Shot 2019-11-13 at 8.14.53 PM.png" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFC-FD-noC">
-                                <rect key="frame" x="0.0" y="28" width="375" height="402"/>
+                                <rect key="frame" x="-5" y="28" width="385" height="402"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You want to run." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aR0-eE-dDB">
-                                <rect key="frame" x="109" y="429" width="156" height="26"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <fontDescription key="fontDescription" name="Circular-Black" family="Circular" pointSize="20"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lVf-DW-7f6">
                                 <rect key="frame" x="99" y="548" width="177" height="45"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
@@ -66,6 +58,18 @@
                                     <action selector="searchSpotifyBTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="oGE-e3-4f1"/>
                                 </connections>
                             </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="spotify-4.png" translatesAutoresizingMaskIntoConstraints="NO" id="nBd-be-ESb">
+                                <rect key="frame" x="149" y="458" width="77" height="68"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="You want to run." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aR0-eE-dDB">
+                                <rect key="frame" x="109" y="424" width="156" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" name="Circular-Black" family="Circular" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -83,7 +87,7 @@
         <!--Start Run Page-->
         <scene sceneID="Pap-wW-p6t">
             <objects>
-                <viewController storyboardIdentifier="StartRunPage" id="dEL-Ub-wqP" customClass="StartRunPage" customModule="Spotify_Demo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="StartRunPage" useStoryboardIdentifierAsRestorationIdentifier="YES" id="dEL-Ub-wqP" customClass="StartRunPage" customModule="Spotify_Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wHB-xV-sD9">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -92,6 +96,44 @@
                                 <rect key="frame" x="0.0" y="454" width="375" height="224"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" fixedFrame="YES" text="2. Hold button until ring closes" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bpJ-mz-e0N">
+                                <rect key="frame" x="16" y="139" width="351" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Circular-Black" family="Circular" pointSize="20"/>
+                                <color key="textColor" red="0.97814254369999998" green="0.98725848999999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" fixedFrame="YES" text="1. We got your playlist data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0De-1B-P2B">
+                                <rect key="frame" x="16" y="106" width="351" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Circular-Black" family="Circular" pointSize="20"/>
+                                <color key="textColor" red="0.97814254369999998" green="0.98725848999999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="1000" fixedFrame="YES" text="3. Start your run." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xST-u7-tAP">
+                                <rect key="frame" x="16" y="172" width="351" height="25.5"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="Circular-Black" family="Circular" pointSize="20"/>
+                                <color key="textColor" red="0.97814254369999998" green="0.98725848999999999" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xUu-Wb-IUu">
+                                <rect key="frame" x="81" y="64" width="221" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                                <color key="backgroundColor" red="0.34145987030000002" green="0.71369022130000004" blue="0.37640845779999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" name="Circular-Black" family="Circular" pointSize="20"/>
+                                <state key="normal" title="Discover Music">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="22"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="discoverMusicTapped:" destination="dEL-Ub-wqP" eventType="touchUpInside" id="S0F-Rn-4oY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.2243578732" green="0.82677322630000005" blue="0.5725150108" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                         <viewLayoutGuide key="safeArea" id="QRE-fm-59k"/>
@@ -216,7 +258,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nlN-gU-eJO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2229.5999999999999" y="-413.3433283358321"/>
+            <point key="canvasLocation" x="2262" y="-412"/>
         </scene>
         <!--AudioVC-->
         <scene sceneID="03B-gM-4KD">
@@ -346,7 +388,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W7Y-Xf-rrs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1376.8" y="-412.44377811094455"/>
+            <point key="canvasLocation" x="1409" y="-412"/>
         </scene>
         <!--PlayVC-->
         <scene sceneID="pb4-cK-gAV">
@@ -448,9 +490,8 @@
                                     <action selector="playPause:" destination="mEP-xH-O0s" eventType="touchUpInside" id="DWX-te-cP2"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Playback source" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luS-FQ-Oeo">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Playback source" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="luS-FQ-Oeo">
                                 <rect key="frame" x="-17" y="559" width="409" height="22"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Circular-Black" family="Circular" pointSize="17"/>
                                 <color key="textColor" red="0.34145987030000002" green="0.71369022130000004" blue="0.37640845779999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
@@ -461,6 +502,7 @@
                             <constraint firstItem="peZ-IA-UNU" firstAttribute="centerX" secondItem="7i4-ui-jfa" secondAttribute="centerX" id="0pB-HS-EQC"/>
                             <constraint firstItem="oUw-Nz-V54" firstAttribute="leading" secondItem="bH5-rc-6wf" secondAttribute="leadingMargin" constant="10" id="271-wy-dpz"/>
                             <constraint firstItem="oUw-Nz-V54" firstAttribute="centerX" secondItem="bH5-rc-6wf" secondAttribute="centerX" id="2Uz-RX-Jog"/>
+                            <constraint firstItem="luS-FQ-Oeo" firstAttribute="leading" secondItem="bH5-rc-6wf" secondAttribute="leading" constant="-17" id="5wq-w8-kxj"/>
                             <constraint firstItem="DHB-wI-FlO" firstAttribute="leading" secondItem="bH5-rc-6wf" secondAttribute="leadingMargin" constant="15" id="7hs-XB-Cp9"/>
                             <constraint firstItem="C2w-uF-PYv" firstAttribute="top" secondItem="JTK-fJ-VhI" secondAttribute="bottom" constant="36" id="7qR-sq-5Qy"/>
                             <constraint firstItem="gtb-j1-4f6" firstAttribute="leading" secondItem="bH5-rc-6wf" secondAttribute="leading" id="9MF-VM-zYP"/>
@@ -473,7 +515,9 @@
                             <constraint firstItem="Brt-R1-bXH" firstAttribute="top" secondItem="8u0-q7-bnj" secondAttribute="top" id="HzS-Bo-l0b"/>
                             <constraint firstItem="UVE-Ha-u9B" firstAttribute="trailing" secondItem="JTK-fJ-VhI" secondAttribute="trailing" constant="75" id="KiB-cr-YwC"/>
                             <constraint firstItem="8u0-q7-bnj" firstAttribute="top" secondItem="gtb-j1-4f6" secondAttribute="top" id="PTB-lN-yue"/>
+                            <constraint firstAttribute="trailing" secondItem="luS-FQ-Oeo" secondAttribute="trailing" constant="-17" id="SNe-OR-Zlv"/>
                             <constraint firstAttribute="trailing" secondItem="Z7j-5v-J2W" secondAttribute="trailing" constant="12" id="Trf-vJ-Af8"/>
+                            <constraint firstItem="zKj-LN-NBg" firstAttribute="top" secondItem="luS-FQ-Oeo" secondAttribute="bottom" constant="8" id="VgZ-nj-95x"/>
                             <constraint firstItem="C2w-uF-PYv" firstAttribute="top" secondItem="8u0-q7-bnj" secondAttribute="bottom" id="ZHq-pX-TIA"/>
                             <constraint firstAttribute="trailingMargin" secondItem="DHB-wI-FlO" secondAttribute="trailing" constant="15" id="ZM7-y3-FAj"/>
                             <constraint firstItem="Brt-R1-bXH" firstAttribute="leading" secondItem="8u0-q7-bnj" secondAttribute="leading" id="ZYc-oP-zj4"/>
@@ -512,6 +556,7 @@
     <resources>
         <image name="Screen Shot 2019-11-13 at 8.14.53 PM.png" width="377" height="372"/>
         <image name="Screen Shot 2019-11-13 at 8.22.47 PM.png" width="375" height="205"/>
+        <image name="spotify-4.png" width="409.60000610351562" height="409.60000610351562"/>
     </resources>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>
